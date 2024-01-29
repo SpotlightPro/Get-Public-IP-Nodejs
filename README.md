@@ -1,0 +1,2 @@
+The script is designed to run on a local machine and provide the public IP address of that machine on a web page accessible at http://<hostname>:<port>/. 
+The script checks if the IP address has changed before starting the server, and if it has, it updates the ip.txt file and the web page accordingly.
