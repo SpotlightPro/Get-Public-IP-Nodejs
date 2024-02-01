@@ -1,7 +1,6 @@
 const express = require("express");
-const path = require("path");
 const http = require("http");
-const app = express();
+// const app = express();
 require("dotenv").config();
 const fs = require("fs");
 // Import and create a variable for yourIp module
@@ -12,7 +11,7 @@ const host = process.env.IP;
 
 const server = http.createServer(function (req, res) {
   res.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile('./public/index.html', function(error, data){
+  fs.readFile('./www/index.html', function(error, data){
     if (!error) {
       res.end(data);
     } else{
@@ -37,9 +36,8 @@ server.listen(port, function (error) {
           if (err) throw err;
           console.log(
             "The new ip has been written in ip.txt file and has been saved!"
-          );
+            );
         });       
-        console.log(`Server is listening on port ${port} and works fine`);
       }
     });
   }

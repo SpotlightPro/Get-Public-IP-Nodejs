@@ -20,7 +20,6 @@ const yourIp = function() {
       // Create ip.txt file and print the ip output
       fs.writeFile("ip.txt", ip, (err) => {
         if (err) throw err;
-        console.log("The ip.txt file has been saved!");
       });
     });
   });
