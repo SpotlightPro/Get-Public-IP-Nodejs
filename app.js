@@ -1,13 +1,46 @@
-import express from "express";
-import fs from "fs";
-import http from "http";
-import yourIp from "./scripts/yourIp.js"; // Custom module. Returns the public IP address of this machine.
-
+const express = require("express");
+const path = require("path");
+const http = require("http");
 const app = express();
+require("dotenv").config();
+const fs = require("fs");
+// Import and create a variable for yourIp module
+const yourIP = require("./scripts/yourIp.js");
 
-const hostname = "192.168.1.5"; // Change  to your local network's IP if necessary.
-const port = 3010; // Change  to a different port number if desired, but be aware that other devices on the same network may already use this port
+const port = process.env.PORT;
+const host = process.env.IP;
 
-yourIp(); //  Calling custom function to get the public IP and store it in a global variable.
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  fs.readFile('./public/index.html', function(error, data){
+    if (!error) {
+      res.end(data);
+    } else{
+      console.log(error)
+    }
+  })
+});
 
+server.listen(port, function (error) {
+  if (error) {
+    console.error(error);
+  } else {
+    const ip = yourIP.myIp();
 
+    // Read the ip.txt file and compare the new ip from the written one
+    fs.readFile("ip.txt", "utf8", (err, data) => {
+      if (err) throw err;
+
+      // Compare the new ip from the written one
+      if (data != ip) {
+        fs.writeFile("ip.txt", ip, (err) => {
+          if (err) throw err;
+          console.log(
+            "The new ip has been written in ip.txt file and has been saved!"
+          );
+        });       
+        console.log(`Server is listening on port ${port} and works fine`);
+      }
+    });
+  }
+});

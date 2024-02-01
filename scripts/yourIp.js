@@ -1,51 +1,30 @@
-import express from "express";
-import fs from "fs";
-import http from "http";
+const fs = require("fs");
+const http = require("http");
+// Require dotenv module to get the environment variables
+require('dotenv').config();
 
-const app = express();
 
-const hostname = "192.168.1.5";
-const port = 3010;
+// Get the router IP
+const hostname = process.env.IP;
+const port = process.env.PORT;
 
 // Get the router IP
 
-function yourIp() {
+const yourIp = function() {
+  // Create a GET request to the API
   http.get({ host: "api.ipify.org", port: 80, path: "/" }, function (resp) {
+    // Get the response data
     resp.on("data", function (ip) {
-      console.log("My public IP address is: " + ip);
+      console.log("My public IP address is: " + ip + `:${port}`);
 
       // Create ip.txt file and print the ip output
       fs.writeFile("ip.txt", ip, (err) => {
         if (err) throw err;
         console.log("The ip.txt file has been saved!");
       });
-
-      // Read the ip.txt file and compare the new ip from the written one
-      fs.readFile("ip.txt", "utf8", (err, data) => {
-        if (err) throw err;
-
-        if (data != ip) {
-          fs.writeFile("ip.txt", ip, (err) => {
-            if (err) throw err;
-            console.log(
-              "The new ip has been written in ip.txt file and has been saved!"
-            );
-          });
-        } else {
-          // Make the IP address public on the web page
-          const server = http.createServer((req, res) => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "text/plain");
-            res.end("Your public IP is:\n" + ip);
-          });
-
-          server.listen(port, hostname, () => {
-            console.log(`Server running at http://${hostname}:${port}/`);
-          });
-        }
-      });
     });
   });
 }
 
-export default yourIp;
+// This line of code exports the 'myIp' module, which is assigned the value of the 'yourIp' variable
+module.exports.myIp = yourIp;
