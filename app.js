@@ -1,18 +1,26 @@
+const path = require("path");
 const express = require("express");
 const http = require("http");
-// const app = express();
+const app = express();
 require("dotenv").config();
 const fs = require("fs");
 // Import and create a variable for yourIp module
 const yourIP = require("./scripts/yourIp.js");
 
+// app.use(express.static(path.join(__dirname, './www/index.html')));
+
 const port = process.env.PORT;
 const host = process.env.IP;
 
+// app.listen(port, () => (console.log(  `Server running on http://${host}:${port}`)));
+
+
+
 const server = http.createServer(function (req, res) {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile('./www/index.html', function(error, data){
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  fs.readFile('www/index.html', function(error, data){
     if (!error) {
+      console.log(`Server's IP and Port is' ${host}:${port}`)
       res.end(data);
     } else{
       console.log(error)
