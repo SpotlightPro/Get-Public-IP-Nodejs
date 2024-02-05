@@ -14,18 +14,16 @@ const host = process.env.IP;
 
 // app.listen(port, () => (console.log(  `Server running on http://${host}:${port}`)));
 
-
-
 const server = http.createServer(function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  fs.readFile('www/index.html', function(error, data){
+  res.writeHead(200, { "Content-Type": "text/html" });
+  fs.readFile("www/index.html", function (error, data) {
     if (!error) {
-      console.log(`Server's IP and Port is' ${host}:${port}`)
+      console.log(`Server's IP and Port is' ${host}:${port}`);
       res.end(data);
-    } else{
-      console.log(error)
+    } else {
+      console.log(error);
     }
-  })
+  });
 });
 
 server.listen(port, function (error) {
@@ -38,14 +36,18 @@ server.listen(port, function (error) {
     fs.readFile("ip.txt", "utf8", (err, data) => {
       if (err) throw err;
 
-      // Compare the new ip from the written one
       if (data != ip) {
-        fs.writeFile("ip.txt", ip, (err) => {
+        if (data === undefined) {
+          data = ip; // Set the data to the new ip if it's undefined
+        }
+        fs.writeFile("ip.txt", data, (err) => {
           if (err) throw err;
           console.log(
             "The new ip has been written in ip.txt file and has been saved!"
-            );
-        });       
+          );
+        });
+      } else {
+        console.log("No new ip found. File not updated.");
       }
     });
   }

@@ -1,2 +1,2 @@
-// this is an example of how your public IP is written in ip.txt file
+// Example of your public IP written in ip.txt file
 124.215.215.24
