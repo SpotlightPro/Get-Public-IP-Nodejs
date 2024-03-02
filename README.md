@@ -1,4 +1,7 @@
-The script is designed to run on a local machine and provide the public IP address of that machine on a web page accessible at http://"hostname":"port"/. 
+# Get Server IP
+
+The script is designed to run on a local machine and provide the public IP address of that machine on a web page accessible at http://"hostname":"port"/.
+
 The script checks if the IP address has changed before starting the server, and if it has, it updates the ip.txt file and the web page accordingly.
 
 Starts by importing the required modules: fs for file system operations, http for creating an HTTP server, and os for obtaining the hostname of the local machine.
